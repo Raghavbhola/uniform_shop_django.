@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shree Krishan Uniform</title>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; }
+
+    .hero {
+      background: #1565C0;
+      padding: 3rem 1.5rem 4rem;
+      text-align: center;
+      clip-path: ellipse(100% 90% at 50% 10%);
+    }
+    .hero h1 { color: white; font-size: 2rem; margin-bottom: 0.5rem; }
+    .hero p { color: #BBDEFB; margin-bottom: 1.5rem; }
+
+    .wa-btn {
+      background: #25D366;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .section { padding: 2rem 1.5rem; }
+    .section h2 { color: #1565C0; text-align: center; margin-bottom: 1.5rem; font-size: 1.4rem; }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .product-card:hover { transform: translateY(-6px); }
+    .product-card span { font-size: 2rem; }
+    .product-card h3 { font-size: 0.85rem; color: #333; margin: 6px 0 4px; }
+    .product-card p { color: #FF6F00; font-weight: bold; }
+
+    .points-box {
+      background: #E3F2FD;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 0 1.5rem 2rem;
+    }
+    .points-box h2 { color: #1565C0; margin-bottom: 1rem; text-align: center; }
+    .points-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #BBDEFB;
+      font-size: 0.9rem;
+    }
+    .points-row:last-child { border-bottom: none; }
+    .badge {
+      background: #FF6F00;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .register-box {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 0 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .register-box h2 { color: #1565C0; margin-bottom: 0.5rem; }
+    .register-box p { color: #666; font-size: 0.9rem; margin-bottom: 1rem; }
+
+    .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .prefix {
+      background: #E3F2FD;
+      color: #1565C0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      border: 1px solid #BBDEFB;
+    }
+    input[type=tel] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .reg-btn {
+      width: 100%;
+      background: #1565C0;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .reg-btn:hover { background: #0D47A1; }
+
+    .msg { margin-top: 10px; padding: 10px; border-radius: 8px; text-align: center; font-size: 0.9rem; display: none; }
+    .msg.success { background: #E8F5E9; color: #2E7D32; }
+    .msg.error { background: #FFEBEE; color: #C62828; }
+
+    .progress-wrap { margin-top: 1rem; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #666; margin-bottom: 4px; }
+    .progress-bar { height: 10px; background: #BBDEFB; border-radius: 5px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #1565C0, #FF6F00); border-radius: 5px; transition: width 0.5s ease; }
+
+    footer {
+      background: #1565C0;
+      color: #BBDEFB;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+    }
+    footer strong { color: white; }
+  </style>
+</head>
+<body>
+
+<div class="hero" data-aos="fade-down">
+  <h1>🏫 Shree Krishan Uniform</h1>
+  <p>School Uniforms & Shoes — Quality Guaranteed</p>
+  <a href="https://wa.me/91XXXXXXXXXX" class="wa-btn">📲 Order on WhatsApp</a>
+</div>
+
+<div class="section" data-aos="fade-up">
+  <h2>🛍️ Our Products</h2>
+  <div class="products">
+    <div class="product-card"><span>👕</span><h3>School Shirt</h3><p>₹180</p></div>
+    <div class="product-card"><span>👖</span><h3>Trousers</h3><p>₹220</p></div>
+    <div class="product-card"><span>👗</span><h3>Girls Dress</h3><p>₹250</p></div>
+    <div class="product-card"><span>👟</span><h3>School Shoes</h3><p>₹450</p></div>
+    <div class="product-card"><span>🧦</span><h3>Socks</h3><p>₹60</p></div>
+    <div class="product-card"><span>🎒</span><h3>School Bag</h3><p>₹350</p></div>
+  </div>
+</div>
+
+<div class="points-box" data-aos="fade-up">
+  <h2>🎁 Loyalty Points System</h2>
+  <div class="points-row"><span>Purchase under ₹100</span><span class="badge">20 pts</span></div>
+  <div class="points-row"><span>₹101 – ₹200</span><span class="badge">45 pts</span></div>
+  <div class="points-row"><span>₹201 – ₹500</span><span class="badge">100 pts</span></div>
+  <div class="points-row"><span>₹500 se zyada</span><span class="badge">150 pts</span></div>
+</div>
+
+<div class="register-box" data-aos="fade-up">
+  <h2>📱 Points ke liye Register Karo</h2>
+  <p>Apna phone number daalo — points automatic track honge & WhatsApp pe message aayega!</p>
+  <div class="input-row">
+    <span class="prefix">+91</span>
+    <input type="tel" id="phone" placeholder="98765 43210" maxlength="10">
+  </div>
+  <button class="reg-btn" onclick="registerCustomer()">Register & Points Kamao</button>
+  <div class="msg" id="msg"></div>
+  <div class="progress-wrap" id="progress-wrap" style="display:none">
+    <div class="progress-label">
+      <span id="pts-label">0 / 1000 points</span>
+      <span>₹75 discount milega!</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Shree Krishan Uniform</strong><br>
+  📍 [Aapka Address] &nbsp;|&nbsp; 📞 +91 XXXXX XXXXX
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 600, once: true });
+
+function registerCustomer() {
+  const phone = document.getElementById('phone').value.trim();
+  const msg = document.getElementById('msg');
+
+  if (phone.length !== 10) {
+    msg.className = 'msg error';
+    msg.style.display = 'block';
+    msg.innerText = '❌ 10 digit ka phone number daalo!';
+    return;
+  }
+
+  fetch('/register/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': getCookie('csrftoken') },
+    body: `phone=${phone}`
+  })
+  .then(r => r.json())
+  .then(data => {
+    msg.style.display = 'block';
+    if (data.success) {
+      msg.className = 'msg success';
+      msg.innerText = `✅ ${data.message} — ${data.points} points!`;
+      const pct = Math.min((data.points / 1000) * 100, 100);
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('pts-label').innerText = `${data.points} / 1000 points`;
+      document.getElementById('progress-wrap').style.display = 'block';
+    } else {
+      msg.className = 'msg error';
+      msg.innerText = '❌ ' + data.message;
+    }
+  });
+}
+
+function getCookie(name) {
+  let v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return v ? v[2] : null;
+}
+</script>
+
+</body>
+</html>
