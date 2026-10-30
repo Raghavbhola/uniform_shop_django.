@@ -200,6 +200,7 @@ function registerCustomer() {
     msg.className = 'msg error';
     msg.style.display = 'block';
     msg.innerText = '❌ 10 digit ka phone number daalo!';
+    window.location.href = '/staff/?phone=' + phone;
     return;
   }
 

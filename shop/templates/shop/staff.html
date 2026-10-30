@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Purchase</title>
+</head>
+<body style="font-family:Arial;max-width:400px;margin:2rem auto;padding:0 1rem">
+  <h2>Add Purchase</h2>
+  <input id="phone" list="phones" autocomplete="off" inputmode="numeric" placeholder="Phone (10 digit)" maxlength="10" style="width:100%;padding:10px;margin-bottom:8px">
+  <datalist id="phones"></datalist>
+  <input id="amount" type="number" placeholder="Amount (₹)" style="width:100%;padding:10px;margin-bottom:8px">
+  <button onclick="addPurchase()" style="padding:10px 20px">Add</button>
+  <p id="out"></p>
+  {% csrf_token %}
+
+  <script>
+    const p = new URLSearchParams(location.search).get('phone');
+    if (p) phone.value = p;
+
+    phone.addEventListener('input', async () => {
+      const q = phone.value.trim();
+      if (q.length < 2) { phones.innerHTML = ''; return; }
+      const r = await fetch('/search/?q=' + encodeURIComponent(q));
+      const d = await r.json();
+      phones.innerHTML = d.results
+        .map(c => `<option value="${c.phone}">${c.points} points</option>`)
+        .join('');
+    });
+
+    phone.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); amount.focus(); }
+    });
+
+    amount.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); addPurchase(); }
+    });
+
+    async function addPurchase() {
+      const body = new URLSearchParams({phone: phone.value, amount: amount.value});
+      const r = await fetch('/purchase/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
+        body
+      });
+      const d = await r.json();
+      out.innerHTML = d.success
+        ? `✅ ${d.message}<br><a href="${d.whatsapp_link}" target="_blank">📲 Send WhatsApp message</a>`
+        : `❌ ${d.message}`;
+      if (d.success) amount.value = '';
+    }
+  </script>
+</body>
+</html>
