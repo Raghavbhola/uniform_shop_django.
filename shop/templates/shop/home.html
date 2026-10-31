@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
@@ -230,6 +230,284 @@ function getCookie(name) {
   let v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
   return v ? v[2] : null;
 }
+</script>
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shree Krishan Uniform | School Uniforms & Loyalty Points</title>
+  <style>
+    :root { --blue:#1565C0; --dark:#0D3B8C; --light:#E3F2FD; --orange:#FF6F00; --green:#25D366; --text:#1e293b; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Segoe UI',Arial,sans-serif; background:#f5f7fb; color:var(--text); line-height:1.5; }
+    .container { max-width:960px; margin:0 auto; padding:0 1.2rem; }
+    section { padding:2.6rem 0; }
+    h2.title { text-align:center; color:var(--blue); font-size:1.5rem; margin-bottom:.4rem; }
+    p.sub { text-align:center; color:#64748b; margin-bottom:1.6rem; font-size:.95rem; }
+
+    /* HERO */
+    .hero { background:linear-gradient(135deg,var(--dark),var(--blue) 60%,#1E88E5); color:#fff; text-align:center; padding:3.2rem 1.2rem 4.5rem; clip-path:ellipse(120% 100% at 50% 0%); }
+    .hero h1 { font-size:2.1rem; margin-bottom:.5rem; }
+    .hero p { color:#BBDEFB; max-width:520px; margin:0 auto 1.6rem; }
+    .btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn { display:inline-block; padding:13px 26px; border-radius:50px; text-decoration:none; font-weight:700; font-size:1rem; border:0; cursor:pointer; }
+    .btn.wa { background:var(--green); color:#fff; }
+    .btn.ghost { background:#fff; color:var(--blue); }
+    .chips { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:1.6rem; font-size:.82rem; }
+    .chips span { background:rgba(255,255,255,.16); padding:6px 14px; border-radius:20px; }
+
+    /* HOW IT WORKS */
+    .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .step { background:#fff; border-radius:16px; padding:1.4rem; text-align:center; box-shadow:0 2px 10px rgba(15,23,42,.07); }
+    .step .num { width:38px; height:38px; margin:0 auto 10px; border-radius:50%; background:var(--orange); color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; }
+    .step h3 { font-size:1.02rem; color:var(--blue); margin-bottom:4px; }
+    .step p { font-size:.88rem; color:#64748b; }
+
+    /* PRODUCTS */
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; }
+    .product { background:#fff; border-radius:14px; padding:1rem; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.07); transition:transform .25s; }
+    .product:hover { transform:translateY(-5px); }
+    .product span { font-size:2.1rem; }
+    .product h3 { font-size:.88rem; margin:6px 0 3px; }
+    .product p { color:var(--orange); font-weight:700; }
+
+    /* POINTS */
+    .points-wrap { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+    .card { background:#fff; border-radius:16px; padding:1.4rem; box-shadow:0 2px 10px rgba(15,23,42,.07); }
+    .card h3 { color:var(--blue); margin-bottom:.8rem; }
+    .row { display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid #e2e8f0; font-size:.92rem; }
+    .row:last-child { border-bottom:0; }
+    .badge { background:var(--orange); color:#fff; padding:2px 11px; border-radius:20px; font-size:.8rem; font-weight:700; }
+    .reward { background:var(--light); border-radius:12px; padding:12px; margin-top:6px; font-size:.92rem; }
+
+    /* REGISTER */
+    .register { background:linear-gradient(180deg,var(--light),#f5f7fb); }
+    .reg-card { max-width:460px; margin:0 auto; background:#fff; border-radius:18px; padding:1.6rem; box-shadow:0 6px 24px rgba(21,101,192,.15); }
+    .reg-card h2 { color:var(--blue); margin-bottom:.3rem; }
+    .reg-card p.note { color:#64748b; font-size:.9rem; margin-bottom:1rem; }
+    .input-row { display:flex; gap:8px; margin-bottom:10px; }
+    .prefix { background:var(--light); color:var(--blue); padding:12px; border-radius:10px; font-weight:700; border:1px solid #BBDEFB; }
+    input[type=tel] { flex:1; min-width:0; padding:12px; border:1.5px solid #cbd5e1; border-radius:10px; font-size:1.05rem; outline:none; }
+    input[type=tel]:focus { border-color:var(--blue); }
+    .reg-btn { width:100%; background:var(--blue); color:#fff; border:0; padding:14px; border-radius:10px; font-size:1.02rem; font-weight:700; cursor:pointer; }
+    .reg-btn:hover { background:var(--dark); }
+    .reg-btn:disabled { opacity:.6; cursor:wait; }
+    .msg { display:none; margin-top:12px; padding:11px; border-radius:10px; text-align:center; font-size:.92rem; }
+    .msg.success { background:#E8F5E9; color:#2E7D32; }
+    .msg.error { background:#FFEBEE; color:#C62828; }
+    .result { display:none; margin-top:14px; text-align:center; }
+    .big { font-size:2.6rem; font-weight:800; color:var(--blue); line-height:1; }
+    .big small { display:block; font-size:.82rem; color:#64748b; font-weight:400; margin-top:4px; }
+    .bar { height:12px; background:#BBDEFB; border-radius:8px; overflow:hidden; margin:14px 0 6px; }
+    .fill { height:100%; width:0; background:linear-gradient(90deg,var(--blue),var(--orange)); transition:width .7s ease; }
+    .remain { font-size:.88rem; color:#64748b; }
+
+    /* BENEFITS */
+    .benefits { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+    .benefit { background:#fff; border-radius:16px; padding:1.3rem; box-shadow:0 2px 10px rgba(15,23,42,.07); }
+    .benefit .ic { font-size:1.8rem; }
+    .benefit h3 { font-size:1rem; margin:6px 0 4px; color:var(--blue); }
+    .benefit p { font-size:.87rem; color:#64748b; }
+
+    footer { background:var(--dark); color:#BBDEFB; text-align:center; padding:1.8rem 1rem; font-size:.88rem; }
+    footer strong { color:#fff; font-size:1rem; }
+    footer a { color:#BBDEFB; }
+    .by { margin-top:8px; font-size:.78rem; opacity:.8; }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🏫 Shree Krishan Uniform</h1>
+  <p>School uniforms, shoes aur bag, sab ek jagah. Har kharid par points kamao aur discount pao.</p>
+  <div class="btns">
+    <a class="btn wa" id="wa-hero" href="#">📲 Order on WhatsApp</a>
+    <a class="btn ghost" href="#register">🎁 Points kamao</a>
+  </div>
+  <div class="chips">
+    <span>✅ Quality Guaranteed</span>
+    <span>🎁 Loyalty Points</span>
+    <span>📱 WhatsApp Updates</span>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2 class="title">Ye kaise kaam karta hai?</h2>
+    <p class="sub">Sirf 3 simple steps, koi card ya app nahi chahiye</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Number register karo</h3><p>Neeche apna WhatsApp number daalo, bas ek baar.</p></div>
+      <div class="step"><div class="num">2</div><h3>Shop se kharido</h3><p>Har purchase par aapke points apne aap add hote hain.</p></div>
+      <div class="step"><div class="num">3</div><h3>Discount pao</h3><p>1000 points hone par ₹75 ka discount milta hai.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="title">🛍️ Hamare Products</h2>
+    <p class="sub">School ki zaroorat ka sara saaman</p>
+    <div class="products">
+      <div class="product"><span>👕</span><h3>School Shirt</h3><p>₹180</p></div>
+      <div class="product"><span>👖</span><h3>Trousers</h3><p>₹220</p></div>
+      <div class="product"><span>👗</span><h3>Girls Dress</h3><p>₹250</p></div>
+      <div class="product"><span>👟</span><h3>School Shoes</h3><p>₹450</p></div>
+      <div class="product"><span>🧦</span><h3>Socks</h3><p>₹60</p></div>
+      <div class="product"><span>🎒</span><h3>School Bag</h3><p>₹350</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="title">🎁 Loyalty Points</h2>
+    <p class="sub">Jitna zyada kharidoge, utne zyada points</p>
+    <div class="points-wrap">
+      <div class="card">
+        <h3>Kitne points milenge?</h3>
+        <div class="row"><span>₹100 tak</span><span class="badge">20 pts</span></div>
+        <div class="row"><span>₹101 – ₹200</span><span class="badge">45 pts</span></div>
+        <div class="row"><span>₹201 – ₹500</span><span class="badge">100 pts</span></div>
+        <div class="row"><span>₹500 se upar</span><span class="badge">150 pts</span></div>
+      </div>
+      <div class="card">
+        <h3>Points ka fayda</h3>
+        <div class="reward">🏆 <b>1000 points</b> = <b>₹75 discount</b> agli kharid par</div>
+        <div class="reward">📲 Har purchase ke baad WhatsApp par points ka summary</div>
+        <div class="reward">📜 Aapki purchase history shop ke paas safe rehti hai</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="register" id="register">
+  <div class="container">
+    <div class="reg-card">
+      <h2>📱 Register or Check points</h2>
+      <p class="note">Enter your WhatsApp Number to register or Check your existing points.</p>
+      <div class="input-row">
+        <span class="prefix">+91</span>
+        <input type="tel" id="phone" placeholder="98765 43210" maxlength="10" inputmode="numeric">
+      </div>
+      <button class="reg-btn" id="regBtn" onclick="registerCustomer()">Register / check points</button>
+      <div class="msg" id="msg"></div>
+      <div class="result" id="result">
+        <div class="big"><span id="ptsNum">0</span><small>aapke total points</small></div>
+        <div class="bar"><div class="fill" id="fill"></div></div>
+        <div class="remain" id="remain"></div>
+      </div>
+      <div style="text-align:center;margin-top:14px;font-size:.9rem;color:#64748b">
+        <b>Already Registered, Click here 👇</b>
+        <a href="/staff/" id="staffBtn" onclick="goStaff(event)"
+          style="display:block;margin-top:8px;padding:12px;border:2px solid var(--blue);border-radius:10px;color:var(--blue);font-weight:700;text-decoration:none">
+          Open Add Purchase &rarr;
+        </a>
+      </div>   
+      {% csrf_token %}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="title">Register kyun karein?</h2>
+    <p class="sub">Aapko milta hai</p>
+    <div class="benefits">
+      <div class="benefit"><div class="ic">🎁</div><h3>Har kharid par points</h3><p>Chhoti ya badi, har purchase par points jodte jaao.</p></div>
+      <div class="benefit"><div class="ic">💰</div><h3>Discount</h3><p>Points jama karke agli kharid par bachat karo.</p></div>
+      <div class="benefit"><div class="ic">📲</div><h3>WhatsApp update</h3><p>Aaj ke points, total points aur discount tak kitne baaki, sab message mein.</p></div>
+      <div class="benefit"><div class="ic">📜</div><h3>Poora record</h3><p>Aapki kab kitni kharid hui, shop ke paas hamesha record.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Shree Krishan Uniform</strong><br>
+  📍 <span id="f-addr"></span> &nbsp;|&nbsp; 📞 <span id="f-phone"></span><br>
+  <a href="/staff/">Staff Login</a>
+  <div class="by">Website by Raghav Bhola</div>
+</footer>
+
+<script>
+  // SHOP KI DETAILS: yahan sirf ek baar badlo
+  const SHOP = {
+    whatsapp: '91XXXXXXXXXX',          // 91 ke baad 10 digit number, bina + ya space ke
+    phone:    '+91 XXXXX XXXXX',
+    address:  '[Aapka Address]',
+    goal:     1000                      // discount ke liye points
+  };
+
+  const waText = encodeURIComponent('Namaste, mujhe uniform order karni hai.');
+  document.getElementById('wa-hero').href = 'https://wa.me/' + SHOP.whatsapp + '?text=' + waText;
+  document.getElementById('f-addr').textContent = SHOP.address;
+  document.getElementById('f-phone').textContent = SHOP.phone;
+
+  function csrfToken() {
+    const el = document.querySelector('[name=csrfmiddlewaretoken]');
+    return el ? el.value : '';
+  }
+
+  function showMsg(text, ok) {
+    const m = document.getElementById('msg');
+    m.className = 'msg ' + (ok ? 'success' : 'error');
+    m.style.display = 'block';
+    m.textContent = text;
+  }
+
+  function goStaff(e) {
+    e.preventDefault();
+    const phone = document.getElementById('phone').value.trim();
+    // number likha hai to staff page par pehle se bhara aayega
+    window.location.href = /^\d{10}$/.test(phone) ? '/staff/?phone=' + phone : '/staff/';
+  }
+  
+  function registerCustomer() {
+    const phone = document.getElementById('phone').value.trim();
+    const btn = document.getElementById('regBtn');
+    const result = document.getElementById('result');
+
+    if (!/^\d{10}$/.test(phone)) {
+      result.style.display = 'none';
+      showMsg('❌ 10 digit ka phone number daalo!', false);
+      return;
+    }
+
+    btn.disabled = true;
+    fetch('/register/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrfToken() },
+      body: 'phone=' + encodeURIComponent(phone)
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        showMsg('✅ ' + data.message, true);
+        const pts = data.points;
+        document.getElementById('ptsNum').textContent = pts;
+        document.getElementById('fill').style.width = Math.min(pts / SHOP.goal * 100, 100) + '%';
+        const left = Math.max(SHOP.goal - pts, 0);
+        document.getElementById('remain').textContent = left > 0
+          ? '🎯 ₹75 discount ke liye ' + left + ' points baaki hain'
+          : '🎉 Badhai ho! Aapko ₹75 ka discount mil sakta hai, shop par bataiye.';
+        result.style.display = 'block';
+      } else {
+        result.style.display = 'none';
+        showMsg('❌ ' + data.message, false);
+      }
+    })
+    .catch(() => showMsg('❌ Kuch gadbad hui, thodi der baad try karo.', false))
+    .finally(() => { btn.disabled = false; });
+  }
+
+  document.getElementById('phone').addEventListener('keydown', e => {
+    if (e.key === 'Enter') registerCustomer();
+  });
 </script>
 
 </body>
