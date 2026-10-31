@@ -1,10 +1,17 @@
-from django.shortcuts import render
-
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponse
 from .models import Customer, Purchase
 from django.contrib.auth.decorators import login_required
 from urllib.parse import quote
+
+from io import BytesIO
+
+from django.db.models import Sum
+from django.utils import timezone
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 
 # Create your views here.
 
@@ -101,3 +108,52 @@ def search_customers(request):
     q = request.GET.get('q', '')
     customers = Customer.objects.filter(phone__startswith=q)[:8] if q else []
     return JsonResponse({'results': [{'phone': c.phone, 'points': c.points} for c in customers]})
+
+@login_required
+def history(request, phone):
+    customer = get_object_or_404(Customer, phone=phone)
+    purchases = customer.purchase_set.order_by('-created_at')
+    total_spent = purchases.aggregate(total=Sum('amount'))['total'] or 0
+    return render(request, 'shop/history.html', {
+        'customer': customer,
+        'purchases': purchases,
+        'total_spent': total_spent,
+    })
+
+
+@login_required
+def history_pdf(request, phone):
+    customer = get_object_or_404(Customer, phone=phone)
+    purchases = customer.purchase_set.order_by('-created_at')
+    total_spent = purchases.aggregate(total=Sum('amount'))['total'] or 0
+
+    buf = BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=A4)
+    styles = getSampleStyleSheet()
+    elements = [
+        Paragraph("Shree Krishan Uniform", styles['Title']),
+        Paragraph("Purchase History", styles['Heading2']),
+        Paragraph(f"Phone: {customer.phone}", styles['Normal']),
+        Paragraph(f"Total points: {customer.points}", styles['Normal']),
+        Paragraph(f"Total spent: Rs {total_spent}", styles['Normal']),
+        Spacer(1, 14),
+    ]
+
+    data = [["Date", "Amount (Rs)", "Points earned"]]
+    for p in purchases:
+        when = timezone.localtime(p.created_at).strftime("%d-%m-%Y %I:%M %p")
+        data.append([when, str(p.amount), str(p.points_earned)])
+
+    table = Table(data, colWidths=[200, 120, 120])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e3a8a')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f1f5f9')]),
+    ]))
+    elements.append(table)
+    doc.build(elements)
+
+    response = HttpResponse(buf.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="history_{customer.phone}.pdf"'
+    return response

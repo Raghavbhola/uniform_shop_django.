@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>History | {{ customer.phone }}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:'Segoe UI',Arial,sans-serif; background:#f1f5f9; color:#1e293b; }
+    .topbar { background:linear-gradient(135deg,#1e3a8a,#2563eb); color:#fff; padding:14px 18px; display:flex; align-items:center; gap:14px; }
+    .topbar a { color:#fff; text-decoration:none; background:rgba(255,255,255,.18); padding:7px 14px; border-radius:20px; font-size:14px; }
+    .topbar h1 { margin:0; font-size:18px; }
+    .wrap { max-width:560px; margin:18px auto; padding:0 14px 30px; }
+    .card { background:#fff; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(15,23,42,.08); }
+    .stats { display:flex; gap:10px; }
+    .stat { flex:1; background:#f8fafc; border-radius:10px; padding:12px; text-align:center; }
+    .stat b { display:block; font-size:20px; color:#1e3a8a; }
+    .stat span { font-size:12px; color:#64748b; }
+    .pdf { display:block; text-align:center; background:#dc2626; color:#fff; text-decoration:none; padding:13px; border-radius:10px; font-weight:600; margin-top:14px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    td, th { padding:9px 6px; border-bottom:1px solid #e2e8f0; text-align:left; }
+    th { color:#64748b; }
+    .empty { color:#94a3b8; text-align:center; padding:14px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="/staff/">&larr; Back</a>
+    <h1>Customer History</h1>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div style="margin-bottom:12px"><b>&#128222; {{ customer.phone }}</b></div>
+      <div class="stats">
+        <div class="stat"><b>{{ customer.points }}</b><span>Total points</span></div>
+        <div class="stat"><b>&#8377;{{ total_spent }}</b><span>Total kharcha</span></div>
+        <div class="stat"><b>{{ purchases.count }}</b><span>Visits</span></div>
+      </div>
+      <a class="pdf" href="{% url 'history_pdf' customer.phone %}">&#128196; PDF download karo</a>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Purchase history</h3>
+      <table>
+        <tr><th>Date</th><th>Amount</th><th>Points</th></tr>
+        {% for p in purchases %}
+        <tr>
+          <td>{{ p.created_at|date:"d M Y, h:i A" }}</td>
+          <td>&#8377;{{ p.amount }}</td>
+          <td>+{{ p.points_earned }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" class="empty">Abhi koi purchase nahi hui.</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</body>
+</html>

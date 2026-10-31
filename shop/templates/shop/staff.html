@@ -1,52 +1,227 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Add Purchase</title>
+  <title>Add Purchase | Shree Krishan Uniform</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+    .topbar {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .topbar a {
+      color: #fff;
+      text-decoration: none;
+      background: rgba(255,255,255,.18);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+    .topbar h1 { margin: 0; font-size: 18px; }
+    .wrap { max-width: 460px; margin: 18px auto; padding: 0 14px 30px; }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(15,23,42,.08);
+    }
+    .card h2 { margin: 0 0 12px; font-size: 17px; }
+    label { font-size: 13px; color: #64748b; display: block; margin-bottom: 5px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    input:focus { border-color: #2563eb; }
+    .preview {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    button.add {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: #2563eb;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button.add:hover { background: #1d4ed8; }
+    .result { display: none; }
+    .result.ok { border-left: 5px solid #16a34a; }
+    .result.err { border-left: 5px solid #dc2626; }
+    .stats { display: flex; gap: 10px; margin: 12px 0; }
+    .stat {
+      flex: 1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat b { display: block; font-size: 20px; color: #1e3a8a; }
+    .stat span { font-size: 12px; color: #64748b; }
+    .wa {
+      display: block;
+      text-align: center;
+      background: #22c55e;
+      color: #fff;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    td, th { padding: 8px 6px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th { color: #64748b; font-weight: 600; }
+    .hint { font-size: 12px; color: #94a3b8; margin-top: 8px; }
+  </style>
 </head>
-<body style="font-family:Arial;max-width:400px;margin:2rem auto;padding:0 1rem">
-  <h2>Add Purchase</h2>
-  <input id="phone" list="phones" autocomplete="off" inputmode="numeric" placeholder="Phone (10 digit)" maxlength="10" style="width:100%;padding:10px;margin-bottom:8px">
-  <datalist id="phones"></datalist>
-  <input id="amount" type="number" placeholder="Amount (₹)" style="width:100%;padding:10px;margin-bottom:8px">
-  <button onclick="addPurchase()" style="padding:10px 20px">Add</button>
-  <p id="out"></p>
-  {% csrf_token %}
+<body>
+  <div class="topbar">
+    <a href="/">&larr; Back</a>
+    <h1>Shree Krishan Uniform</h1>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>Add Purchase</h2>
+
+      <label for="phone">Customer ka phone number</label>
+      <input id="phone" list="phones" autocomplete="off" inputmode="numeric"
+             maxlength="10" placeholder="Phone no.">
+      <datalist id="phones"></datalist>
+
+      <label for="amount">Amount (&#8377;)</label>
+      <input id="amount" type="number" inputmode="decimal" placeholder="amount">
+
+      <div class="preview" id="preview"></div>
+
+      <button class="add" onclick="addPurchase()">Add Purchase</button>
+      <button class="add" style="background:#475569;margin-top:10px" onclick="openHistory()">&#128196; Customer ki History</button>
+      <div class="hint">Tip: number likhke Enter dabao, phir amount likhke Enter dabao.</div>
+    </div>
+
+    <div class="card result" id="result"></div>
+
+    <div class="card">
+      <h2>Points ka rule</h2>
+      <table>
+        <tr><th>Purchase</th><th>Points</th></tr>
+        <tr><td>&#8377;100 tak</td><td>20</td></tr>
+        <tr><td>&#8377;101 &ndash; &#8377;200</td><td>45</td></tr>
+        <tr><td>&#8377;201 &ndash; &#8377;500</td><td>100</td></tr>
+        <tr><td>&#8377;500 se upar</td><td>150</td></tr>
+      </table>
+    </div>
+
+    {% csrf_token %}
+  </div>
 
   <script>
-    const p = new URLSearchParams(location.search).get('phone');
-    if (p) phone.value = p;
+    const phoneEl = document.getElementById('phone');
+    const amountEl = document.getElementById('amount');
+    const listEl = document.getElementById('phones');
+    const previewEl = document.getElementById('preview');
+    const resultEl = document.getElementById('result');
 
-    phone.addEventListener('input', async () => {
-      const q = phone.value.trim();
-      if (q.length < 2) { phones.innerHTML = ''; return; }
+    // views.py ke get_points jaisa hi rule (agar wahan badlo to yahan bhi badlo)
+    function pointsFor(a) {
+      if (a <= 100) return 20;
+      if (a <= 200) return 45;
+      if (a <= 500) return 100;
+      return 150;
+    }
+
+    // URL se phone pehle se bhara aaye
+    const p = new URLSearchParams(location.search).get('phone');
+    if (p) phoneEl.value = p;
+
+    // Number suggestions
+    phoneEl.addEventListener('input', async () => {
+      const q = phoneEl.value.trim();
+      if (q.length < 2) { listEl.innerHTML = ''; return; }
       const r = await fetch('/search/?q=' + encodeURIComponent(q));
       const d = await r.json();
-      phones.innerHTML = d.results
-        .map(c => `<option value="${c.phone}">${c.points} points</option>`)
+      listEl.innerHTML = d.results
+        .map(c => '<option value="' + c.phone + '">' + c.points + ' points</option>')
         .join('');
     });
 
-    phone.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); amount.focus(); }
+    // Amount likhte hi points ka preview
+    amountEl.addEventListener('input', () => {
+      const a = parseFloat(amountEl.value);
+      if (a > 0) {
+        previewEl.style.display = 'block';
+        previewEl.textContent = '\u2B50 Is purchase par ' + pointsFor(a) + ' points milenge';
+      } else {
+        previewEl.style.display = 'none';
+      }
     });
 
-    amount.addEventListener('keydown', e => {
+    // Enter keys
+    phoneEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); amountEl.focus(); }
+    });
+    amountEl.addEventListener('keydown', e => {
       if (e.key === 'Enter') { e.preventDefault(); addPurchase(); }
     });
 
+    function openHistory() {
+      const ph = phoneEl.value.trim();
+      if (ph.length !== 10) { alert('Pehle 10 digit ka number likho'); return; }
+      window.location.href = '/history/' + ph + '/';
+    }
+
     async function addPurchase() {
-      const body = new URLSearchParams({phone: phone.value, amount: amount.value});
+      const body = new URLSearchParams({ phone: phoneEl.value, amount: amountEl.value });
       const r = await fetch('/purchase/', {
         method: 'POST',
-        headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
         body
       });
       const d = await r.json();
-      out.innerHTML = d.success
-        ? `✅ ${d.message}<br><a href="${d.whatsapp_link}" target="_blank">📲 Send WhatsApp message</a>`
-        : `❌ ${d.message}`;
-      if (d.success) amount.value = '';
+      resultEl.style.display = 'block';
+
+      if (d.success) {
+        resultEl.className = 'card result ok';
+        resultEl.innerHTML =
+          '<h2>\u2705 Purchase add ho gayi</h2>' +
+          '<div>' + d.message + '</div>' +
+          '<div class="stats">' +
+            '<div class="stat"><b>' + d.points_earned + '</b><span>Aaj ke points</span></div>' +
+            '<div class="stat"><b>' + d.total_points + '</b><span>Total points</span></div>' +
+          '</div>' +
+          '<a class="wa" href="' + d.whatsapp_link + '" target="_blank">\uD83D\uDCF2 WhatsApp par message bhejo</a>';
+        amountEl.value = '';
+        previewEl.style.display = 'none';
+        phoneEl.focus();
+      } else {
+        resultEl.className = 'card result err';
+        resultEl.innerHTML = '<h2>\u274C Kuch galat hua</h2><div>' + d.message + '</div>';
+      }
     }
   </script>
 </body>
